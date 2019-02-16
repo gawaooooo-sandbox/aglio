@@ -38,7 +38,7 @@
     "aglio-theme-olio": "git+https://github.com/gawaooooo-sandbox/aglio#olio-theme",
     "chokidar": "^2.1.1",
     "cli-color": "^1.1.0",
-    "drafter.js": "^3.0.0-pre.2",
+    "drafter.js": "^2.6.7",
     "pretty-error": "^2.1.1",
     "serve-static": "^1.10.0",
     "socket.io": "^2.2.0",
