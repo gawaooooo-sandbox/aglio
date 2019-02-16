@@ -46,13 +46,14 @@ describe 'API Blueprint Renderer', ->
             done()
 
     it 'Should render a complex document', (done) ->
+        @timeout 5000
         aglio.render blueprint, 'default', (err, html) ->
             if err then return done(err)
 
             assert html
 
             # Ensure include works
-            assert html.indexOf 'This is content that was included'
+            assert.ok(html.indexOf('This is content that was included') > -1)
 
             done()
 
@@ -69,17 +70,16 @@ describe 'API Blueprint Renderer', ->
 
             done()
 
-# TODO: warnings...
-    # it 'Should return warnings with filtered input', (done) ->
-    #     temp = '# GET /message\r\n+ Response 200 (text/plain)\r\r\t\tHello!\n'
-    #     filteredTemp = temp.replace(/\r\n?/g, '\n').replace(/\t/g, '    ')
+    it 'Should return warnings with filtered input', (done) ->
+        temp = '# GET /message\r\n+ Response 200 (text/plain)\r\r\t\tHello!\n'
+        filteredTemp = temp.replace(/\r\n?/g, '\n').replace(/\t/g, '    ')
 
-    #     aglio.render temp, 'default', (err, html, warnings) ->
-    #         if err then return done(err)
+        aglio.render temp, 'default', (err, html, warnings) ->
+            if err then return done(err)
 
-    #         assert.equal filteredTemp, warnings.input
+            assert.equal filteredTemp, warnings.input
 
-    #         done()
+            done()
 
     it 'Should render from/to files', (done) ->
         src = path.join root, 'example.apib'
@@ -166,7 +166,7 @@ describe 'API Blueprint Renderer', ->
             done()
 
     it 'Should error on drafter failure', (done) ->
-        sinon.stub(drafter, 'parse').callsFake((content, callback) ->
+        sinon.stub(drafter, 'parse').callsFake((content, options, callback) ->
             callback 'error')
 
         aglio.render blueprint, 'default', (err, html) ->
@@ -208,19 +208,19 @@ describe 'API Blueprint Renderer', ->
 
 describe 'Executable', ->
     it 'Should print a version', (done) ->
-        sinon.stub console, 'log'
+        spy = sinon.spy console, 'log'
 
         bin.run version: true, (err) ->
-            assert console.log.args[0][0].match /aglio \d+/
-            assert console.log.args[1][0].match /olio \d+/
-            console.log.restore()
+            assert spy.called
+            assert spy.args[0][0].match /aglio \d+/
+            assert spy.args[1][0].match /olio \d+/
+            spy.restore()
             done(err)
 
     it 'Should render a file', (done) ->
         sinon.stub console, 'error'
 
         sinon.stub(aglio, 'renderFile').callsFake((i, o, t, callback) ->
-            # TODO: warnings...
             warnings = [
                 {
                     code: 1
