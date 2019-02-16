@@ -1,6 +1,6 @@
 fs = require 'fs'
 path = require 'path'
-drafter = require 'drafter'
+drafter = require 'drafter.js'
 
 INCLUDE = /( *)<!-- include\((.*)\) -->/gmi
 ROOT = path.dirname __dirname
@@ -81,7 +81,7 @@ exports.render = (input, options, done) ->
 
     # Handle custom directive(s)
     input = includeDirective options.includePath, input
-
+    
     # Drafter does not support \r ot \t in the input, so
     # try to intelligently massage the input so that it works.
     # This is required to process files created on Windows.
@@ -91,7 +91,8 @@ exports.render = (input, options, done) ->
             .replace(/\t/g, '    ')
 
     benchmark.start 'parse'
-    drafter.parse filteredInput, type: 'ast', (err, res) ->
+    # drafter.parse filteredInput, type: 'ast', (err, res) ->
+    drafter.parse filteredInput, (err, res) ->
         benchmark.end 'parse'
         if err
             err.input = input
@@ -110,15 +111,17 @@ exports.render = (input, options, done) ->
             options[name] ?= option.default
 
         benchmark.start 'render-total'
-        theme.render res.ast, options, (err, html) ->
+        # theme.render res.ast, options, (err, html) ->
+        theme.render res, options, (err, html) ->
             benchmark.end 'render-total'
             if err then return done(err)
 
             # Add filtered input to warnings since we have no
             # error to return
-            res.warnings.input = filteredInput
+            # res.warnings.input = filteredInput
 
-            done null, html, res.warnings
+            # done null, html, res.warnings
+            done null, html
 
 # Render from/to files
 exports.renderFile = (inputFile, outputFile, options, done) ->
