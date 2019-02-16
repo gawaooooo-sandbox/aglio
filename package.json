@@ -35,22 +35,22 @@
     "markdown"
   ],
   "dependencies": {
-    "aglio-theme-olio": "gawaooooo-sandbox/aglio#olio-theme",
+    "aglio-theme-olio": "git+https://github.com/gawaooooo-sandbox/aglio#olio-theme",
     "chokidar": "^2.1.1",
     "cli-color": "^1.1.0",
+    "drafter.js": "^3.0.0-pre.2",
     "pretty-error": "^2.1.1",
-    "drafter": "^2.0.0-pre.1",
     "serve-static": "^1.10.0",
     "socket.io": "^2.2.0",
     "yargs": "^13.1.0"
   },
   "devDependencies": {
-    "async": "^2.6.1",
+    "async": "^2.6.2",
     "coffeelint": "^2.1.0",
     "grunt": "^1.0.3",
     "grunt-coffeelint": "0.0.16",
     "grunt-contrib-coffee": "^2.0.0",
-    "grunt-mocha-cov": "^0.4.0",
+    "grunt-mocha-cov": "git+https://github.com/gawaooooo-sandbox/grunt-mocha-cov#develop",
     "sinon": "^7.2.3"
   }
 }
